@@ -1,0 +1,212 @@
+---
+title: "visuals"
+author: "Derek"
+date: "2024-04-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+fig1 <- ggplot(agg_data, aes(x = Season, y = Amount, fill = Type)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("Total_Expenditure" = "indianred", "Total_Income" = "lightgreen"),
+                    labels = c("Expenditure", "Income"),
+                    name = "Key") + # Rename the legend
+  coord_flip() +
+  labs(title = "Figure 1: Total Income and Expenditure per Season",
+       x = "Season", # Update the x-axis label
+       y = "Amount (in Millions (€))",
+       caption = "Data: Transfermarkt") + # Add caption
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.title = element_text(face = "bold"), # Bold the legend title
+        plot.caption = element_text(hjust = 0), # Left-align the caption
+        axis.text.y = element_text(hjust = 1))  # Right-align y-axis labels
+
+fig1
+```
+
+```{r}
+fig2 <- ggplot(highest_expenditure_by_season, aes(x = Season, y = Total_Expenditure, fill = Competition)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Figure 2 Highest Expenditure per Competition Each Season",
+       x = "Season",
+       y = "Total Expenditure (Millions €)",
+       fill = "Competition") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1), # Rotate x-axis labels if they overlap
+        legend.position = "bottom")
+
+fig2
+```
+
+```{r}
+fig3 <- ggplot(highest_income_by_season, aes(x = Season, y = Total_Income, fill = Competition)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  labs(title = "Figure 3: Highest Income per Competition Each Season",
+       x = "Season",
+       y = "Total Income (Millions €)",
+       fill = "Competition") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1), # Rotate x-axis labels if they overlap
+        legend.position = "bottom")
+
+fig3
+```
+
+```{r}
+fig4<- ggplot(predictions_df_long, aes(x = Income, y = value, color = variable)) +
+  geom_line() +
+  labs(title = "Figure 3: Predicted Wins at Different Income Quantiles",
+       x = "Income (Millions €)",
+       y = "Predicted Wins",
+       color = "Quantile") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+fig4
+```
+
+```{r}
+fig5 <- ggplot(plot_data, aes(x = Fitted_Wins, y = Actual_Wins)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) + # Add a regression line
+  labs(title = "Figure 4: Panel Data Regression: Actual vs Fitted Wins",
+       x = "Fitted Wins",
+       y = "Actual Wins") +
+  theme_minimal()
+
+fig5
+```
+
+```{r}
+fig6 <- ggplot(data_pl, aes(x = Season)) +
+  geom_point(aes(y = Expenditure, color = "Expenditure")) +
+  geom_smooth(aes(y = Expenditure, color = "Expenditure"), method = "loess", se = FALSE) +
+  geom_point(aes(y = W * (max_expenditure / max_wins), color = "Wins")) +
+  geom_smooth(aes(y = W * (max_expenditure / max_wins), color = "Wins"), method = "loess", se = FALSE) +
+  scale_color_manual(name = "", values = c("Expenditure" = "red", "Wins" = "blue")) +
+  scale_y_continuous(
+    name = "Expenditure (€ Millions)",
+    sec.axis = sec_axis(~ . / (max_expenditure / max_wins), name = "Wins"),
+    limits = c(0, max_expenditure)
+  ) +
+  labs(title = "Figure 5: Expenditure and Wins Over Seasons in the Premier League",
+       caption = "Expenditure and wins are plotted on separate scales") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom")
+
+fig6
+```
+
+
+
+
+
+
+```{r}
+# Set common theme elements for consistency
+common_theme <- theme_minimal(base_size = 14) +
+                theme(legend.position = "bottom",
+                      legend.title = element_text(face = "bold"),
+                      plot.caption = element_text(hjust = 0, size = 10),
+                      axis.text.x = element_text(angle = 45, vjust = 0.5),
+                      axis.title = element_text(size = 12),
+                      plot.title = element_text(size = 14, face = "bold"))
+
+# Set common color palette for aesthetics
+common_fill <- scale_fill_manual(values = c("indianred", "lightgreen", "lightblue", "steelblue"),
+                                 name = "Key")
+
+# Figure 1: Total Income and Expenditure per Season
+fig1 <- ggplot(agg_data, aes(x = Season, y = Amount, fill = Type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  common_fill +
+  coord_flip() +
+  labs(title = "Figure 1: Total Income and Expenditure per Season",
+       x = "Season",
+       y = "Amount (in Millions €)",
+       caption = "Data: Transfermarkt") +
+  common_theme
+
+# Figure 2: Highest Expenditure per Competition Each Season
+fig2 <- ggplot(highest_expenditure_by_season, aes(x = Season, y = Total_Expenditure, fill = Competition)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  common_fill +
+  labs(title = "Figure 2: Highest Expenditure per Competition Each Season",
+       x = "Season",
+       y = "Total Expenditure (Millions €)", caption = "Data: Transfermarkt") +
+  common_theme
+
+# Figure 3: Highest Income per Competition Each Season
+fig3 <- ggplot(highest_income_by_season, aes(x = Season, y = Total_Income, fill = Competition)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  common_fill +
+  labs(title = "Figure 3: Highest Income per Competition Each Season",
+       x = "Season",
+       y = "Total Income (Millions €)", caption = "Data: Transfermarkt") +
+  common_theme
+
+# Figure 4: Predicted Wins at Different Income Quantiles
+fig4 <- ggplot(predictions_df_long, aes(x = Income, y = value, color = variable)) +
+  geom_line() +
+  scale_color_manual(values = c("Quantile 0.25" = "tomato", "Quantile 0.5" = "gold", "Quantile 0.75" = "forestgreen"),
+                     name = "Quantile") +
+  labs(title = "Figure 4: Predicted Wins at Different Income Quantiles",
+       x = "Income (Millions €)",
+       y = "Predicted Wins", caption = "Data: FBRef & Transfermarkt") +
+  common_theme
+
+# Figure 5: Panel Data Regression: Actual vs Fitted Wins
+fig5 <- ggplot(plot_data, aes(x = Fitted_Wins, y = Actual_Wins)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, color = "blue") +
+  labs(title = "Figure 5: Panel Data Regression: Actual vs Fitted Wins",
+       x = "Fitted Wins",
+       y = "Actual Wins", caption = "Data: FBRef & Transfermarkt") +
+  common_theme
+
+# Figure 6: Expenditure and Wins Over Seasons in the Premier League
+fig6 <- ggplot(data_pl, aes(x = Season)) +
+  geom_point(aes(y = Expenditure, color = "Expenditure")) +
+  geom_smooth(aes(y = Expenditure, color = "Expenditure"), method = "loess", se = FALSE) +
+  geom_point(aes(y = W * (max_expenditure / max_wins), color = "Wins")) +
+  geom_smooth(aes(y = W * (max_expenditure / max_wins), color = "Wins"), method = "loess", se = FALSE) +
+  scale_color_manual(name = "Key", values = c("Expenditure" = "red", "Wins" = "blue")) +
+  scale_y_continuous(
+    name = "Expenditure (€ Millions)",
+    sec.axis = sec_axis(~ . / (max_expenditure / max_wins), name = "Wins"),
+    limits = c(0, max_expenditure)
+  ) +
+  labs(title = "Figure 6: Expenditure and Wins Over Seasons in the Premier League",
+       subtitle = "Expenditure and wins are plotted on separate scales", caption = "Data: FBRef & Transfermarkt") +
+  common_theme
+
+```
+
+```{r}
+# Assuming that you have already created the ggplot objects (fig1, fig2, ...)
+
+# Print Figure 1
+print(fig1)
+
+# Print Figure 2
+print(fig2)
+
+# Print Figure 3
+print(fig3)
+
+# Print Figure 4
+print(fig4)
+
+# Print Figure 5
+print(fig5)
+
+# Print Figure 6
+print(fig6)
+
+```
+
