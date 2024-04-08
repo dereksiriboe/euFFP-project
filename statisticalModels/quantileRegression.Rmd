@@ -1,0 +1,59 @@
+---
+title: ""
+author: "Derek"
+date: "2024-04-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# Load the necessary libraries
+library(quantreg)
+library(ggplot2)
+library(readr)
+
+# Convert relevant variables to numeric if needed, especially if they contain currency symbols or other characters
+data3$Income <- as.numeric(gsub("[€m]", "", data3$Income))
+data3$Expenditure <- as.numeric(gsub("[€m]", "", data3$Expenditure))
+
+# Conduct quantile regression
+qr_model <- rq(W ~ Income + Expenditure, data = data3, tau = 0.5)
+
+# Summarize the results
+summary(qr_model)
+```
+
+
+```{r}
+# Visualize the quantile regression results
+quantiles <- c(0.25, 0.5, 0.75) # Change as needed
+
+# Generate predictions
+predictions <- lapply(quantiles, function(tau) {
+  predict(rq(W ~ Income + Expenditure, data = data3, tau = tau), newdata = data3)
+})
+
+# Combine the predictions with the original data for plotting
+predictions_df <- do.call(cbind, predictions)
+colnames(predictions_df) <- paste("Quantile", quantiles)
+predictions_df <- cbind(data3, predictions_df)
+
+# Melt the data for ggplot2
+predictions_df_long <- reshape2::melt(predictions_df, id.vars = c("Season", "Income", "Expenditure", "W"), 
+                                      measure.vars = paste("Quantile", quantiles))
+
+# Create the plot
+ggplot(predictions_df_long, aes(x = Income, y = value, color = variable)) +
+  geom_line() +
+  labs(title = "Figure 3: Predicted Wins at Different Income Quantiles",
+       x = "Income (Millions €)",
+       y = "Predicted Wins",
+       color = "Quantile") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+

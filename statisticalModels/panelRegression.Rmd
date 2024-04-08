@@ -1,0 +1,78 @@
+---
+title: ""
+author: "Derek"
+date: "2024-04-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(plm)
+library(ggplot2)
+library(readr)
+
+# Also assuming that 'Income' and 'Expenditure' are numeric. If not, convert them:
+data3$Income <- as.numeric(sub("[^0-9.]", "", data3$Income))
+data3$Expenditure <- as.numeric(sub("[^0-9.]", "", data3$Expenditure))
+data3$Season <- as.factor(data3$Season)
+
+# Convert to a panel data frame
+pdata <- pdata.frame(data3, index = c("Club", "Season"))
+
+# Choose between fixed effects or random effects model
+fe_model <- plm(W ~ Income + Expenditure, data = pdata, model = "within")
+
+# Summary of the fixed effects model
+summary(fe_model)
+
+# To compare fixed effects and random effects, run a Hausman test
+re_model <- plm(W ~ Income + Expenditure, data = pdata, model = "random")
+hausman_test <- phtest(fe_model, re_model)
+print(hausman_test)
+```
+
+```{r}
+# Load the necessary libraries
+library(plm)
+library(ggplot2)
+library(readr)
+library(dplyr)
+
+# Remove any observations with NAs in the relevant columns
+data3 <- na.omit(data3)
+
+# Convert to a panel data frame
+pdata <- pdata.frame(data3, index = c("Club", "Season"))
+
+# Fit the fixed effects model
+fe_model <- plm(W ~ Income + Expenditure, data = pdata, model = "within")
+
+# Obtain fitted values from the model
+# This creates a vector of fitted values aligned with the model's data
+fitted_values <- fitted(fe_model)
+
+# Create a new data frame with the actual wins and fitted values
+# Assuming 'Wins' is the dependent variable in your model
+plot_data <- data.frame(
+  Club = row.names(pdata),
+  Actual_Wins = pdata$W,
+  Fitted_Wins = fitted_values
+)
+
+# Plot actual Wins against fitted values from the fixed effects model
+gg <- ggplot(plot_data, aes(x = Fitted_Wins, y = Actual_Wins)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) + # Add a regression line
+  labs(title = "Figure 4: Panel Data Regression: Actual vs Fitted Wins",
+       x = "Fitted Wins",
+       y = "Actual Wins") +
+  theme_minimal()
+
+print(gg)
+```
+
+
+

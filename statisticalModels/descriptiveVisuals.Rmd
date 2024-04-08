@@ -1,0 +1,149 @@
+---
+title: ""
+author: "Derek"
+date: "2024-03-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+```
+
+
+```{r}
+# Convert Expenditure, Income, and Balance from factors to numeric values
+# Removing the € and m characters and converting the result to numeric
+data$Expenditure <- as.numeric(gsub("€|m", "", data$Expenditure))
+data$Income <- as.numeric(gsub("€|m", "", data$Income))
+data$Balance <- as.numeric(gsub("€|m", "", data$Balance))
+```
+
+
+```{r}
+ggplot(data, aes(x = Season, y = Expenditure, fill = "Expenditure")) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Income, fill = "Income"), stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(title = "Total Expenditure and Income per Season", x = "Season", y = "Amount (in Millions)") +
+  scale_fill_manual(values = c("Expenditure" = "indianred", "Income" = "lightgreen"))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+
+# Convert 'Income' and 'Expenditure' to numeric after removing currency symbols and letters
+data$Income <- as.numeric(gsub("[€m]", "", data$Income))
+data$Expenditure <- as.numeric(gsub("[€m]", "", data$Expenditure))
+
+# Aggregate data to get total income and total expenditure per season
+agg_data <- data %>%
+  group_by(Season) %>%
+  summarize(Total_Income = sum(Income, na.rm = TRUE),
+            Total_Expenditure = sum(Expenditure, na.rm = TRUE))
+
+# Preparing data for plotting
+agg_data <- agg_data %>%
+  pivot_longer(cols = -Season, names_to = "Type", values_to = "Amount")
+
+# Convert 'Total_Expenditure' values to negative for diverging bar chart
+agg_data$Amount <- ifelse(agg_data$Type == "Total_Expenditure", -agg_data$Amount, agg_data$Amount)
+
+# Sort seasons in ascending order and convert to a factor
+agg_data$Season <- factor(agg_data$Season, levels = unique(agg_data$Season[order(agg_data$Season)]))
+
+# Create the diverging bar chart with improved aesthetics
+ggplot(agg_data, aes(x = Season, y = Amount, fill = Type)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("Total_Expenditure" = "indianred", "Total_Income" = "lightgreen"),
+                    labels = c("Expenditure", "Income"),
+                    name = "Key") + # Rename the legend
+  coord_flip() +
+  labs(title = "Figure 1: Total Income and Expenditure per Season",
+       x = "Season", # Update the x-axis label
+       y = "Amount (in Millions (€))",
+       caption = "Data: Transfermarkt") + 
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.title = element_text(face = "bold"), 
+        plot.caption = element_text(hjust = 0), 
+        axis.text.y = element_text(hjust = 1))  
+
+```
+
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+
+# Convert 'Expenditure' to numeric
+data$Expenditure <- as.numeric(gsub("[€m]", "", data$Expenditure))
+
+# For each season, find the competition with the highest expenditure
+highest_expenditure_by_season <- data %>%
+  group_by(Season, Competition) %>%
+  summarize(Total_Expenditure = sum(Expenditure, na.rm = TRUE)) %>%
+  # Now we have total expenditure per competition per season
+  ungroup() %>%
+  arrange(Season, desc(Total_Expenditure)) %>%
+  group_by(Season) %>%
+  slice(1) %>%
+  ungroup()
+
+# Create the bar chart
+ggplot(highest_expenditure_by_season, aes(x = Season, y = Total_Expenditure, fill = Competition)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Figure 2 Highest Expenditure per Competition Each Season",
+       x = "Season",
+       y = "Total Expenditure (Millions €)",
+       fill = "Competition") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1), # Rotate x-axis labels if they overlap
+        legend.position = "bottom")
+
+```
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Convert 'Income' to numeric if it's not already
+data$Income <- as.numeric(gsub("[€m]", "", data$Income))
+
+# For each season, find the competition with the highest income
+highest_income_by_season <- data %>%
+  group_by(Season, Competition) %>%
+  summarize(Total_Income = sum(Income, na.rm = TRUE)) %>%
+  # Now we have total income per competition per season
+  ungroup() %>%
+  arrange(Season, desc(Total_Income)) %>%
+  group_by(Season) %>%
+  slice(1) %>%
+  ungroup()
+
+# Create the bar chart
+ggplot(highest_income_by_season, aes(x = Season, y = Total_Income, fill = Competition)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  labs(title = "Figure 3: Highest Income per Competition Each Season",
+       x = "Season",
+       y = "Total Income (Millions €)",
+       fill = "Competition") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1), # Rotate x-axis labels if they overlap
+        legend.position = "bottom")
+
+```
+

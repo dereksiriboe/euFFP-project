@@ -1,0 +1,101 @@
+---
+title: ""
+author: "Derek"
+date: "2024-04-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(forecast)
+library(tseries)
+
+data_pl <- data3 %>%
+  filter(Competition == "Premier League") %>%
+  mutate(
+    Season = as.Date(paste0(substr(Season, 1, 4), "-01-01")), # Convert Season to Date
+    Expenditure = as.numeric(gsub("€|m", "", Expenditure)) # Convert Expenditure to numeric
+  )
+
+```
+
+
+
+```{r}
+cor.test(data_pl$Expenditure, data_pl$W, use = "complete.obs")
+
+```
+```{r}
+library(fpp2) # For easy time series handling and modeling
+
+# Example for one club, say Manchester United
+man_united <- data_pl %>% 
+  filter(Club == "Manchester United") %>%
+  arrange(Season)
+
+# ARIMA model for Expenditure
+expenditure_ts <- ts(man_united$Expenditure, start = c(2001), frequency = 1)
+fit_expenditure <- auto.arima(expenditure_ts)
+summary(fit_expenditure)
+
+# Similar approach for Wins
+wins_ts <- ts(man_united$W, start = c(2001), frequency = 1)
+fit_wins <- auto.arima(wins_ts)
+summary(fit_wins)
+
+```
+
+
+
+```{r}
+data3$Expenditure <- as.numeric(gsub("€|m", "", data3$Expenditure))
+data3$Income <- as.numeric(gsub("€|m", "", data3$Income))
+# Compute the correlation matrix for numeric variables, excluding non-numeric columns
+numeric_data <- select_if(data3, is.numeric)
+cor_matrix <- cor(numeric_data, use = "complete.obs")
+
+# View the correlation matrix
+print(cor_matrix)
+library(corrplot)
+
+corrplot(cor_matrix, method = "circle")
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# Create the plot with a secondary axis for wins
+# Ensure that the range for wins is set appropriately
+max_wins <- max(data_pl$W, na.rm = TRUE)
+max_expenditure <- max(data_pl$Expenditure, na.rm = TRUE)
+
+ggplot(data_pl, aes(x = Season)) +
+  geom_point(aes(y = Expenditure, color = "Expenditure")) +
+  geom_smooth(aes(y = Expenditure, color = "Expenditure"), method = "loess", se = FALSE) +
+  geom_point(aes(y = W * (max_expenditure / max_wins), color = "Wins")) +
+  geom_smooth(aes(y = W * (max_expenditure / max_wins), color = "Wins"), method = "loess", se = FALSE) +
+  scale_color_manual(name = "", values = c("Expenditure" = "red", "Wins" = "blue")) +
+  scale_y_continuous(
+    name = "Expenditure (€ Millions)",
+    sec.axis = sec_axis(~ . / (max_expenditure / max_wins), name = "Wins"),
+    limits = c(0, max_expenditure)
+  ) +
+  labs(title = "Figure 5: Expenditure and Wins Over Seasons in the Premier League",
+       caption = "Expenditure and wins are plotted on separate scales") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom")
+
+
+
+
+```
+
