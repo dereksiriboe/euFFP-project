@@ -1,1 +1,41 @@
+# README
+
+## File Descriptions
+
+- `timeSeries.Rmd`: Contains the R Markdown file for the time-series analysis of the financial data. This includes visualizations and statistical models that explore trends in club expenditure and income over time.
+
+- `panelRegression.Rmd`: This R Markdown file details the panel data regression analysis conducted to assess the relationship between clubs' financial metrics and their performance in terms of wins and losses.
+
+- `descriptiveVisuals.Rmd`: Includes the code for generating descriptive visualizations of the data, which are essential for understanding the basic financial trends of football clubs over the seasons.
+
+- `quantileRegression.Rmd`: Contains the R Markdown file for the quantile regression analysis. This analysis is crucial for understanding how club income levels affect performance across different quantiles.
+
+## Instructions for Use
+
+To view the analysis:
+
+1. Install RStudio and the necessary R packages (ggplot2, dplyr, plm, quantreg, and any other libraries used within the Rmd files).
+2. Open the `.Rmd` files in RStudio.
+
+## Data Sources
+
+The financial data was sourced from Transfermarkt, known for its exhaustive financial records on football clubs, while the performance data was acquired from FBref.com, offering a rich repository of football match statistics.
+
+## Analysis Summary
+
+- Time-series analysis observes an increasing trend in club expenditures post-2010, despite wins not showing a clear corresponding trend.
+- Panel data regression did not find statistically significant predictors for wins, suggesting other factors beyond the financial metrics may play a role.
+- Quantile regression at the median level showed expenditure as a significant predictor for wins, whereas income was not.
+- Descriptive visuals aid in understanding the general financial conditions of the clubs and the disparities in income and expenditure over the years.
+
+For further details on the methodology, results, and discussion, please refer to the individual `.Rmd` files.
+
+## Contact Information
+
+For any queries or further discussion related to this project, please contact Derek Siriboe at siribo_d1@denison.edu
+
+## Acknowledgments
+
+Credit to Transfermarkt for providing the financial data and FBref.com for the performance statistics. The research conducted here is part of an ongoing effort to evaluate the efficacy of financial regulations in European football.
+
 
