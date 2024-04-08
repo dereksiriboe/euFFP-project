@@ -1,1 +1,24 @@
+Files Description
+The dataset files included are:
 
+data.csv: Contains general financial information about football clubs, including income, expenditure, and balance over multiple seasons.
+
+data2.csv: Encompasses match performance statistics, such as wins, losses, and draws, for football clubs across different seasons.
+
+data3.csv: (Merge of data and data2) It also comprises detailed financial transactions of football clubs, including arrivals and departures of players and related financial details.
+
+Additional Information
+Variables in the datasets are self-explanatory, with each column title indicating the type of data contained.
+
+The financial figures are presented in Euros (€) and cover multiple seasons, providing a temporal dimension to the analyses.
+
+Performance statistics are aggregated at the club level, with each row representing a unique club within a particular season.
+
+Recommendations for Users
+New users should familiarize themselves with the context of FFP regulations and the financial dynamics of European football to make the most of the datasets. Preliminary exploratory data analysis is recommended to understand the distributions, trends, and potential outliers in the datasets.
+
+Citation
+
+Premier League Stats | FBref.com. (n.d.). FBref.com. https://fbref.com/en/comps/9/Premier-League-Stats
+
+Transfer balance (income and expenditure). (n.d.). Transfermarkt. https://www.transfermarkt.us/statistik/transfersalden
