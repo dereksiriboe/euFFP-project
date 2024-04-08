@@ -1,1 +1,20 @@
+## File Descriptions
+R Markdown Files
+PolishedVisuals.Rmd: This file are dedicated to creating final, publication-ready visuals. They ensure that all graphics adhere to aesthetic standards and are consistent in style, color themes, and font sizes, making them suitable for inclusion in the paper.
 
+Jupyter Notebook Files
+mergingdata.ipynb: A Jupyter Notebook that documents the process of data cleaning and merging. It's an essential initial step in the analysis pipeline where data from various sources is combined into a coherent dataset for further analysis.
+
+Instructions for Use
+Setup: Ensure you have R and Python installed with the necessary libraries. For R, you'll need ggplot2, plm, and other packages specified within the files. For Python, ensure you have a Jupyter environment set up with libraries like pandas and matplotlib.
+
+Execution: Open each R Markdown file in RStudio and each Jupyter Notebook in a Jupyter environment. Execute the code chunks/cells in sequence to reproduce the analysis.
+
+Customization: Feel free to modify the code to explore different aspects of the data or adjust the visuals to fit other narrative styles.
+
+Visualization: The "PolishedVisuals.Rmd" file is specifically tuned for creating visuals for presentations or publication. Use this as a template for creating consistent and aesthetically pleasing graphics.
+
+Notes
+Each file is self-contained, with comments and structured code for ease of understanding.
+Data sources and package versions are documented for reproducibility.
+Code chunks/cells include explanatory comments to guide newcomers through the analysis steps.
