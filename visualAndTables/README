@@ -1,1 +1,30 @@
+File Descriptions
+fig1.png
+Title: Figure 1: Total Income and Expenditure per Season
+Description: This bar chart represents the total income and expenditure of football clubs per season, providing a longitudinal view of clubs' financial trends from 2001/2002 to 2022/2023.
+Source: Data from Transfermarkt
 
+fig2.png
+Title: Figure 2: Highest Expenditure per Competition Each Season
+Description: A comparative analysis of the highest expenditures in the Premier League and Serie A for each season, highlighting the spending patterns in two of Europe's top leagues.
+Source: Data from Transfermarkt
+
+fig3.png
+Title: Figure 3: Highest Income per Competition Each Season
+Description: This visual illustrates the highest income by competition for each season, providing insight into which leagues generate the most revenue.
+Source: Data from Transfermarkt
+
+fig4.png
+Title: Figure 4: Predicted Wins at Different Income Quantiles
+Description: The line graph projects the number of wins at different income quantiles, showing the predicted performance based on clubs' financial power.
+Source: Data from FBref & Transfermarkt
+
+fig5.png
+Title: Figure 5: Panel Data Regression: Actual vs Fitted Wins
+Description: A scatter plot depicting the actual versus fitted wins based on a panel data regression model, indicating the predictability of match outcomes from financial data.
+Source: Data from FBref & Transfermarkt
+
+fig6.png
+Title: Figure 6: Expenditure and Wins Over Seasons in the Premier League
+Description: This dual-axis plot juxtaposes the expenditure against wins for clubs in the Premier League across seasons, examining the correlation between financial investment and performance success.
+Source: Data from FBref & Transfermarkt
