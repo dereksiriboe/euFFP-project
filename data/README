@@ -3,7 +3,7 @@ The dataset files included are:
 
 data.csv: Contains general financial information about football clubs, including income, expenditure, and balance over multiple seasons.
 
-data2.csv: Encompasses match performance statistics, such as wins, losses, and draws, for football clubs across different seasons.
+data2.csv: Encompasses match performance statistics, such as wins, losses, and draws, for Premier League football clubs across different seasons.
 
 data3.csv: (Merge of data and data2) It also comprises detailed financial transactions of football clubs, including arrivals and departures of players and related financial details.
 
