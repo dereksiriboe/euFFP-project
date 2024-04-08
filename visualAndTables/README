@@ -28,3 +28,17 @@ fig6.png
 Title: Figure 6: Expenditure and Wins Over Seasons in the Premier League
 Description: This dual-axis plot juxtaposes the expenditure against wins for clubs in the Premier League across seasons, examining the correlation between financial investment and performance success.
 Source: Data from FBref & Transfermarkt
+
+LateXTables.pdf, contains a collection of tables formatted in LaTeX to display statistical results related to a study on the impact of Financial Fair Play regulations on European football clubs. The tables provide detailed regression results and correlation analysis, highlighting key statistics such as coefficients, standard errors, t-values, p-values, and confidence intervals.
+
+Content Overview
+
+Table 1: Quantile Regression Results
+This table presents the results from a quantile regression analysis that explores the relationship between clubs' wins and their financial indicators, namely income and expenditure. It shows the regression coefficients for the median (tau = 0.5) along with the corresponding lower and upper bounds of the 95% confidence interval.
+
+Table 2: Fixed Effects Regression Results
+This table offers the results from a fixed effects regression model. It includes estimates of the impact of income and expenditure on the number of wins for football clubs, standard errors of these estimates, t-values, and the associated p-values. Additional model metrics such as the Total Sum of Squares, Residual Sum of Squares, R-Squared, Adjusted R-Squared, and the F-statistic are provided to assess the model fit.
+
+Table 3: Pearson’s Product-Moment Correlation between Expenditure and Wins
+This table reports the results of Pearson's correlation analysis, measuring the strength of the relationship between clubs' expenditure and the number of wins. The table provides the correlation coefficient (r), t-value, degrees of freedom, p-value, and the 95% confidence interval for the correlation estimate.
+
