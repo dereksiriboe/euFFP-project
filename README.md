@@ -26,7 +26,7 @@ This project uses historical data on European football wins, losses, draws, club
 - Competitive Balance: Number of wins, losses, draws per club
 - Transfer Market: Number and value of player arrivals and departures
 
-The data are sourced from [https://www.transfermarkt.us/](#) 
+The data are sourced from [https://www.transfermarkt.us/](#) and [https://fbref.com/en/comps/9/Premier-League-Stats](#)
 
 ## License
 This project is licensed under the [MIT License](LICENSE.md) - see the LICENSE file for details.
